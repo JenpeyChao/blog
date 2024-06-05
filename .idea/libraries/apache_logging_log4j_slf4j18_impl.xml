@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="apache.logging.log4j.slf4j18.impl" type="repository">
+    <properties maven-id="org.apache.logging.log4j:log4j-slf4j18-impl:2.17.2" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/log4j-slf4j18-impl-2.17.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-api-1.8.0-beta4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/log4j-api-2.17.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/log4j-core-2.17.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

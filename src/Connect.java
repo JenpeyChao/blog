@@ -27,7 +27,7 @@ public class Connect {
         ));
         Document document = result.first();
         if (document!=null){
-            System.out.println("Successfully login!");
+            System.out.println(username+ " Successfully login!");
             return new User(document.getInteger("userID"));
         }
         return null;
