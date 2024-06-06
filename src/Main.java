@@ -45,6 +45,7 @@ public class Main {
 
                 case 2 ->blog.updateBlog();
             }
+            blog.showBlogs();
         }while(choice != 5);
 
     }

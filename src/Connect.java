@@ -89,4 +89,9 @@ public class Connect {
         collection.insertOne(document);
         System.out.println("Sucessfully Commented!");
     }
+    public void updateBlog(Document filter,Document update){
+        collection = mongoDatabase.getCollection(blogCollection);
+        collection.updateOne(filter,update);
+
+    }
 }
