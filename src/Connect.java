@@ -6,7 +6,10 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.*;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import org.bson.Document;
+import org.bson.types.ObjectId;
+
 import java.util.List;
 
 public class Connect {
@@ -58,7 +61,7 @@ public class Connect {
         return null;
     }
 
-    public AggregateIterable<Document> getComments(Integer blogId) {
+    public AggregateIterable<Document> getComments(ObjectId blogId) {
         collection = mongoDatabase.getCollection(commentCollection);
         AggregateIterable<Document> result = collection.aggregate(List.of(
                 Aggregates.match(Filters.and(
@@ -89,9 +92,21 @@ public class Connect {
         collection.insertOne(document);
         System.out.println("Sucessfully Commented!");
     }
-    public void updateBlog(Document filter,Document update){
+    public void updateBlog(Document filter,Document update) {
         collection = mongoDatabase.getCollection(blogCollection);
-        collection.updateOne(filter,update);
 
+        collection.updateOne(filter, update);
+    }
+
+
+    public void deleteBlog(Document document) {
+        collection = mongoDatabase.getCollection(blogCollection);
+        collection.deleteOne(document);
+    }
+
+    public void addBlog(Document document) {
+        collection = mongoDatabase.getCollection(blogCollection);
+        collection.insertOne(document);
+        System.out.println("Sucessfully added a new blog!");
     }
 }

@@ -44,8 +44,13 @@ public class Main {
                 }
 
                 case 2 ->blog.updateBlog();
+                case 3-> blog.deleteBlog();
+                case 4-> blog.addBlog();
             }
-            blog.showBlogs();
+            if(choice != 5){
+                blog.showBlogs();
+            }
+
         }while(choice != 5);
 
     }

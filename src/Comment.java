@@ -1,16 +1,17 @@
 import com.mongodb.client.AggregateIterable;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import java.util.Scanner;
 
 public class Comment {
     private Connect connect;
-    private Integer blogId;
+    private ObjectId blogId;
     private AggregateIterable<Document> comments;
     private User user;
     private Scanner myObj = new Scanner(System.in);
 
-    public Comment(Connect connect, Integer blogId, User user) {
+    public Comment(Connect connect, ObjectId blogId, User user) {
         this.connect = connect;
         this.blogId = blogId;
         this.user = user;
