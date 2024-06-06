@@ -16,6 +16,7 @@ public class Connect {
     private MongoDatabase mongoDatabase;
     private MongoClient mongoClient;
     private MongoCollection<Document> collection;
+    private int userID;
 
     public User setUser(String username,String password){
         collection = mongoDatabase.getCollection(userCollection);
@@ -28,7 +29,45 @@ public class Connect {
         Document document = result.first();
         if (document!=null){
             System.out.println(username+ " Successfully login!");
-            return new User(document.getInteger("userID"));
+            userID = document.getInteger("userID");
+            return new User(userID);
+        }
+        return null;
+    }
+    public AggregateIterable<Document> getBlogs(){
+        collection = mongoDatabase.getCollection(blogCollection);
+        AggregateIterable<Document> result = collection.aggregate(List.of(
+                Aggregates.match(new Document())
+        ));
+        if(result.first()!= null){
+            return result;
+        }
+        return null;
+    }
+    public AggregateIterable<Document> getMyBlogs(){
+        collection = mongoDatabase.getCollection(blogCollection);
+        AggregateIterable<Document> result = collection.aggregate(List.of(
+                Aggregates.match(Filters.and(
+                        Filters.eq("userId", userID)
+                ))
+
+        ));
+        if(result.first()!= null){
+            return result;
+        }
+        return null;
+    }
+
+    public AggregateIterable<Document> getComments(Integer blogId) {
+        collection = mongoDatabase.getCollection(commentCollection);
+        AggregateIterable<Document> result = collection.aggregate(List.of(
+                Aggregates.match(Filters.and(
+                        Filters.eq("blogId", blogId)
+                ))
+
+        ));
+        if(result.first()!= null){
+            return result;
         }
         return null;
     }
@@ -43,4 +82,6 @@ public class Connect {
         mongoDatabase = mongoClient.getDatabase(database);
 
     }
+
+
 }
