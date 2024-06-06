@@ -14,6 +14,7 @@ public class Main {
             System.out.print("Password: ");
             password = myObj.nextLine();
             user = connect.setUser(username, password);
+            blog = new Blog(connect,user);
            if(user== null){
                 System.out.println("Please Try again");
            }
@@ -31,6 +32,7 @@ public class Main {
             System.out.println("2) Update my blog");
             System.out.println("3) Delete my blog");
             System.out.println("4) Create a new blog");
+            System.out.println("5) Exit");
             choice = myObj.nextInt();
             myObj.nextLine();
             switch(choice){
@@ -41,21 +43,15 @@ public class Main {
                     blog.pickBlog(index);
                 }
 
-                case 2 -> updateBlog();
+                case 2 ->blog.updateBlog();
             }
         }while(choice != 5);
 
     }
 
-    private static void updateBlog() {
-    }
-
-    private static void showBlogs() {
-    }
 
     public static void main(String[] args) {
         connect = new Connect();
-        blog = new Blog(connect);
         getAccess();
     }
 }

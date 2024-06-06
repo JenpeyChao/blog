@@ -7,11 +7,13 @@ public class Blog {
     private final Connect connect;
     private AggregateIterable<Document> myBlogs;
     private AggregateIterable<Document> allBlogs;
+    private User user;
 
-    public Blog(Connect connect) {
+    public Blog(Connect connect,User user) {
         this.connect = connect;
         myBlogs = connect.getMyBlogs();
         allBlogs = connect.getBlogs();
+        this.user = user;
     }
     public void showBlogs(){
         AggregateIterable<Document> result = allBlogs;
@@ -21,6 +23,7 @@ public class Blog {
 
                 System.out.print((index+1) +") ");
                 System.out.println(document.getString("title"));
+                index+=1;
             }
 
         }else{
@@ -68,8 +71,15 @@ public class Blog {
             return;
         }
 
-        Comment comments = new Comment(connect,indexDocument.getInteger("blogId"));
+        Comment comments = new Comment(connect,indexDocument.getInteger("blogId"), user);
+        System.out.println("-----BLOG-----");
+        System.out.println("Title: "+ indexDocument.getString("title"));
+        System.out.println("Body: "+ indexDocument.getString("body"));
         comments.getComments();
+
+    }
+
+    public void updateBlog() {
 
     }
 }

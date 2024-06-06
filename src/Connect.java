@@ -84,4 +84,9 @@ public class Connect {
     }
 
 
+    public void addComment(Document document) {
+        collection = mongoDatabase.getCollection(commentCollection);
+        collection.insertOne(document);
+        System.out.println("Sucessfully Commented!");
+    }
 }
