@@ -16,8 +16,8 @@ public class Comment {
         this.blogId = blogId;
         this.user = user;
     }
-
-    public void getComments() {
+    public void printComments(){
+        //gets the comments
         comments = connect.getComments(blogId);
         System.out.println("-----COMMENTS-----");
         if(comments == null){
@@ -25,11 +25,15 @@ public class Comment {
         }else{
             int index = 0;
             for(Document document: comments){
-                System.out.print("From: "+document.getInteger("userId"));
+                System.out.print("From: "+document.getString("name"));
                 System.out.println(" Says:"+document.getString("body"));
             }
 
         }
+    }
+    public void getComments() {
+        //gets the
+        printComments();
         String choice;
         System.out.print("Would you like to add a comment to this blog?(yes/no) ");
         choice = myObj.nextLine();
@@ -37,11 +41,14 @@ public class Comment {
             System.out.println("What would you like to say?");
             String body = myObj.nextLine();
             Document document = new Document().append("userId",user.getId())
+                    .append("name", user.getName())
                     .append("blogId",blogId)
                     .append("body",body);
             connect.addComment(document);
+            printComments();
             System.out.print("Would you like to add another comment?(yes/no) ");
             choice = myObj.nextLine();
+
         }
     }
 }

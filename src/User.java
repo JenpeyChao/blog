@@ -1,19 +1,31 @@
-public class User {
-    private int id;
+import org.bson.types.ObjectId;
 
-    public User(int id) {
+public class User {
+    private ObjectId id;
+    private String name;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public User(ObjectId id, String name) {
         this.id = id;
+        this.name = name;
     }
 
     public User() {
-        this.id = -1;
+        this.id = null;
     }
 
-    public int getId() {
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(ObjectId id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
     }
 }

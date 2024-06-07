@@ -19,9 +19,10 @@ public class Connect {
     private MongoDatabase mongoDatabase;
     private MongoClient mongoClient;
     private MongoCollection<Document> collection;
-    private int userID;
+    private ObjectId userID;
 
     public User setUser(String username,String password){
+        //connect to the database and returns the user id and name
         collection = mongoDatabase.getCollection(userCollection);
         AggregateIterable<Document> result = collection.aggregate(List.of(
                 Aggregates.match(Filters.and(
@@ -32,12 +33,13 @@ public class Connect {
         Document document = result.first();
         if (document!=null){
             System.out.println(username+ " Successfully login!");
-            userID = document.getInteger("userID");
-            return new User(userID);
+            userID = document.getObjectId("_id");
+            return new User(userID, document.getString("username"));
         }
         return null;
     }
     public AggregateIterable<Document> getBlogs(){
+        //returns the collection of all the blogs
         collection = mongoDatabase.getCollection(blogCollection);
         AggregateIterable<Document> result = collection.aggregate(List.of(
                 Aggregates.match(new Document())
@@ -48,6 +50,7 @@ public class Connect {
         return null;
     }
     public AggregateIterable<Document> getMyBlogs(){
+        //returns the collection of the user blogs
         collection = mongoDatabase.getCollection(blogCollection);
         AggregateIterable<Document> result = collection.aggregate(List.of(
                 Aggregates.match(Filters.and(
@@ -62,6 +65,7 @@ public class Connect {
     }
 
     public AggregateIterable<Document> getComments(ObjectId blogId) {
+        //returns the collection of commetns
         collection = mongoDatabase.getCollection(commentCollection);
         AggregateIterable<Document> result = collection.aggregate(List.of(
                 Aggregates.match(Filters.and(
@@ -88,25 +92,38 @@ public class Connect {
 
 
     public void addComment(Document document) {
+        //adds the comment to the collection
         collection = mongoDatabase.getCollection(commentCollection);
         collection.insertOne(document);
         System.out.println("Sucessfully Commented!");
     }
     public void updateBlog(Document filter,Document update) {
+        //updates the blog
         collection = mongoDatabase.getCollection(blogCollection);
-
         collection.updateOne(filter, update);
+        System.out.println("Blog successfully updated");
     }
 
 
     public void deleteBlog(Document document) {
+        //deletes the blog
         collection = mongoDatabase.getCollection(blogCollection);
         collection.deleteOne(document);
     }
 
     public void addBlog(Document document) {
+        //adds the blog
         collection = mongoDatabase.getCollection(blogCollection);
         collection.insertOne(document);
         System.out.println("Sucessfully added a new blog!");
+    }
+
+    public void newUser(String username, String password) {
+        //creates the a new user
+        Document document = new Document().append("username",username)
+                .append("password", password);
+        collection = mongoDatabase.getCollection(userCollection);
+        collection.insertOne(document);
+        System.out.println("Successfully created an account!");
     }
 }

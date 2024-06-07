@@ -7,6 +7,7 @@ public class Main {
     static Blog blog;
 
     public static void getAccess(){
+        //checks if the user is in the data
         do {
             String username, password;
             System.out.print("Username: ");
@@ -16,15 +17,25 @@ public class Main {
             user = connect.setUser(username, password);
             blog = new Blog(connect,user);
            if(user== null){
-                System.out.println("Please Try again");
+               //if not then they can signup or just try again
+                System.out.println("Theres no user with that credentials");
+                System.out.println("Want to sign up?");
+                String choice = myObj.nextLine();
+                if (choice.equals("yes")){
+                    System.out.print("Whats the username? ");
+                    username = myObj.nextLine();
+                    System.out.print("Whats the password? ");
+                    password = myObj.nextLine();
+                    connect.newUser(username,password);
+                }
            }
         }while(user == null);
-
+        //prints the menu
         menu();
     }
     public static void menu(){
         int choice;
-
+        //prints the menu
         blog.showBlogs();
         do {
             System.out.println("Menu:");
@@ -35,6 +46,7 @@ public class Main {
             System.out.println("5) Exit");
             choice = myObj.nextInt();
             myObj.nextLine();
+
             switch(choice){
                 case 1 -> {
                     System.out.print("Which blog do you want to look at? ");
